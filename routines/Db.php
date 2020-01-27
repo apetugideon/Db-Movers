@@ -2,16 +2,14 @@
 class Db {
 	private $host 	= "localhost";
 	private $user 	= "root";
-	private $pass	= "Adisababa2$";
+	private $pass	= "";
 	private $dbname = "";
 	private $conn	= null;
-	
 	
     public function __construct($dbname) {
 		$this->dbname = $dbname;
 		$this->do_connection();
 	}
-
 
 	public function do_connection() { //Parameter from service environmental variables
 		try {
@@ -24,7 +22,6 @@ class Db {
 		}
 	}
 
-
 	public function show_tables() {
 		try {
             $qry  = "SHOW TABLES";
@@ -35,7 +32,6 @@ class Db {
         }
 	}
 	
-	
 	public function describe_table($curr_tab) {
 		try {
             $qry  = "DESCRIBE {$curr_tab}";
@@ -45,7 +41,17 @@ class Db {
 			$this->log_error($e);
         }
 	}
-
+	
+	public function execute($in_query) {
+        try {
+            if ($in_query != "") {
+                $stmt	= $this->conn->prepare($in_query);
+                return $stmt->execute();
+            }
+        } catch (Exception $e) {
+            $this->log_error($e);
+        }
+    }
 
 	//EXTRACT ALL PRIMARY AND FOREIGN KEYS IN A DATABASE WRT THEIR TABLES
     public function CURR_USER_ID() {
@@ -62,11 +68,9 @@ class Db {
         }
     }
 	
-	
 	protected function log_error($e) {
 		//$e->getLine(), $e->getFile(), $e->getMessage();
 	}
-	
 	
 	public function dbgarr($desc, $arrval) {
 		echo "<pre>{$desc}";
