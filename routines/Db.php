@@ -42,6 +42,18 @@ class Db {
         }
 	}
 	
+	
+	public function show_indexes($curr_tab) {
+		try {
+            $qry  = "SHOW INDEXES FROM {$curr_tab}";
+            $stmt = $this->conn->prepare($qry);
+            return ($stmt->execute()) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : array();
+        } catch (PDOException $e) {
+			$this->log_error($e);
+        }
+	}
+
+	
 	public function execute($in_query) {
         try {
             if ($in_query != "") {

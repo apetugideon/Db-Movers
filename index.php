@@ -22,7 +22,8 @@
 			foreach($tab_arr as $ky=>$vals) {
 				$curr_table = $vals[$r_indx];
 				$tab_desc = $dbObj->describe_table($curr_table);
-				Utilities::genMigration($tab_desc, $curr_table, $curr_db);
+				$tabIndx = Utilities::resolve_indexes($dbObj->show_indexes($curr_table));
+				Utilities::genMigration($tab_desc, $curr_table, $curr_db, $tabIndx);
 			}
 		}
 	}
