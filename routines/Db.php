@@ -64,6 +64,22 @@ class Db {
             $this->log_error($e);
         }
     }
+	
+	
+	public function check_index($curr_db, $curr_tab, $index) {
+		try {
+            $qry  = "SELECT 1        
+					 FROM INFORMATION_SCHEMA.STATISTICS
+					 WHERE TABLE_SCHEMA = '{$curr_db}' 
+					 AND TABLE_NAME='{$curr_tab}' 
+					 AND INDEX_NAME='{$index}';";
+            $stmt = $this->conn->prepare($qry);
+            return ($stmt->execute()) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : array();
+        } catch (PDOException $e) {
+			$this->log_error($e);
+        }
+	}
+
 
 	//EXTRACT ALL PRIMARY AND FOREIGN KEYS IN A DATABASE WRT THEIR TABLES
     public function CURR_USER_ID() {

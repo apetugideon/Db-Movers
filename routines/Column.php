@@ -210,7 +210,7 @@ class Column {
 	
 	public function index($name, $index_arr) {
 		$impl = implode(",", $index_arr);
-		$this->query_string .= "CREATE INDEX {$name} ON {$this->curr_action} ({$impl});<br>";
+		$this->query_string .= "SET sql_mode = ''; CREATE INDEX {$name} ON {$this->curr_action} ({$impl});<br>";
 		return $this;
 	}
 	

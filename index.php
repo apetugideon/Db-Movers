@@ -1,4 +1,8 @@
 <?php
+	//DATETIME DEFAULT VALUE
+	//EXECUTING MULTIPLE INDEXES QUERY
+	//PERFECT THE MIGRATE AND GENERATE ROUTIUNE
+	
 	error_reporting(E_ALL);
 	ini_set('display_errors', '1');
 
