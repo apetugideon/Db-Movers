@@ -4,7 +4,9 @@ class Table {
 	static private $databaseObj = null;
 	static private $curr_db 	= "";
 	
+	
 	public function __construct() {}
+	
 	
 	public function initAction() {
 		self::$curr_db = $_SESSION['curr_db'];
@@ -12,6 +14,7 @@ class Table {
 		self::$curr_db = self::$curr_db."2";
 		self::$databaseObj = new Db(self::$curr_db);
 	}
+	
 	
     public static function create($table_name, $action_function, $dbEngine="") {
 		$colObj 	= new Column("create");
@@ -65,15 +68,6 @@ class Table {
 	}
 	
 	
-	private static function exec_status($status, $name, $actor) {
-		if (!$status) {
-			echo "------------------Failed Query(ies)---------------------------------------------------<br>";
-			echo self::$curr_query; 
-			echo "<br><br>";
-		}
-	}
-	
-	
 	private static function resolveValidIndexQuery($inQuery, $tab_name) {
 		$queryArr = array();
 		if ($inQuery != "") {
@@ -92,5 +86,14 @@ class Table {
 			}
 		}
 		return $queryArr;
+	}
+	
+	
+	private static function exec_status($status, $name, $actor) {
+		if (!$status) {
+			echo "------------------Failed Query(ies)---------------------------------------------------<br>";
+			echo self::$curr_query; 
+			echo "<br><br>";
+		}
 	}
 }

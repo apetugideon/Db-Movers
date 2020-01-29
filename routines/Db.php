@@ -1,17 +1,18 @@
 <?php
 class Db {
-	private $host 	= "localhost";
-	private $user 	= "root";
+	private $host 	= "";
+	private $user 	= "";
 	private $pass	= "";
 	private $dbname = "";
 	private $conn	= null;
 	
     public function __construct($dbname) {
+		$this->resolveDb();
 		$this->dbname = $dbname;
 		$this->do_connection();
 	}
-
-	public function do_connection() { //Parameter from service environmental variables
+	
+	public function do_connection() {		
 		try {
 			$this->conn = new PDO("mysql:host={$this->host};dbname={$this->dbname}", $this->user, $this->pass, array(
 				PDO::ATTR_PERSISTENT => true
@@ -81,29 +82,17 @@ class Db {
 	}
 
 
-	//EXTRACT ALL PRIMARY AND FOREIGN KEYS IN A DATABASE WRT THEIR TABLES
-    public function CURR_USER_ID() {
-        try {
-            $qry  = "select table_name, column_name, referenced_table_name, referenced_column_name
-                    FROM information_schema.key_column_usage
-                    WHERE (referenced_table_name is not null)
-                    AND (column_name='modified_by' OR column_name='created_by')
-                    AND (CONSTRAINT_SCHEMA='$this->dbname') ";
-            $stmt = $this->conn->prepare($qry);
-            return ($stmt->execute()) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : array();
-        } catch (PDOException $e) {
-			$this->log_error($e);
-        }
-    }
+	private function resolveDb() {
+		$configObj = Entry::config();
+		if (!empty($configObj)) {
+			$this->host = (isset($configObj['db_host'])) ? trim($configObj['db_host']) : "";
+			$this->user = (isset($configObj['db_user'])) ? trim($configObj['db_user']) : "";
+			$this->pass = (isset($configObj['db_pass'])) ? trim($configObj['db_pass']) : "";
+		}
+	}
+	
 	
 	protected function log_error($e) {
 		//$e->getLine(), $e->getFile(), $e->getMessage();
-	}
-	
-	public function dbgarr($desc, $arrval) {
-		echo "<pre>{$desc}";
-		print_r($arrval);
-		echo "</pre>";
-		echo "<br>";
 	}
 }
