@@ -16,7 +16,7 @@ class Column {
 			$this->curr_string   = $thisObj->add($name, $size);
 			$this->query_string .= "{$this->curr_string};\n";
 		} else {
-			$update_clause = ($this->curr_action == "UPDATE") ? " ADD" : "";
+			$update_clause = (($this->curr_action == "UPDATE") && ($this->curr_string != "")) ? " ADD" : "";
 			$this->curr_string = $thisObj->add($name, $size);
 			$this->query_string .= ($this->query_string == "") ? "{$update_clause}	{$this->curr_string}" : ",{$update_clause} {$this->curr_string}";
 		}
