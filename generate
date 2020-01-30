@@ -2,6 +2,15 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-include("Entry.php");
-Entry::file_inclusion();
-Entry::generate();
+try {
+	echo "\n\nInitialising ...\n\n";
+	include("Entry.php");
+	Entry::file_inclusion();
+	
+	echo "Generating ...\n\n";
+	Entry::generate();
+	
+	echo "Done!\n\n";
+} catch(Exception $e) {
+	echo 'Migration generation failed because : ' .$e->getMessage();
+}
