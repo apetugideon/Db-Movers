@@ -117,9 +117,9 @@ class Table {
 	
 	private static function exec_status($status, $name, $actor) {
 		if (!$status) {
-			echo "------------------Failed Query(ies)---------------------------------------------------<br>";
-			echo self::$curr_query; 
-			echo "<br><br>";
+			echo "Failed Query(ies) : \n\n";
+			echo "  " . self::$curr_query . "\n\n"; 
+			echo "\n\n";
 		}
 	}
 }
