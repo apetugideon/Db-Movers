@@ -10,7 +10,6 @@ class Table {
 	
 	public function initAction() {
 		self::$curr_db = $_SESSION['curr_db'];
-		//self::$curr_db = self::$curr_db."2";
 		self::$databaseObj = new Db(self::$curr_db);
 	}
 	
